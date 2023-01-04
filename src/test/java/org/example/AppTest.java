@@ -430,5 +430,19 @@ public class AppTest {
             }
             System.out.println("heihei");
         }
+        @Test
+        public void test_equal(){
+            String a = new String("ab"); // a 为一个引用
+            String b = new String("ab"); // b为另一个引用,对象的内容一样
+            String aa = "ab"; // 放在常量池中
+            String bb = "ab"; // 从常量池中查找
+            Integer a1=42;
+            double a2=  42.0;
+            System.out.println(aa == bb);// true
+            System.out.println(a == b);// false
+            System.out.println(a.equals(b));// true
+            System.out.println(422 == 422.000);// true 基本类型的== 就是值比较
+            System.out.println(a1 == a2);// true
+        }
 }
 
