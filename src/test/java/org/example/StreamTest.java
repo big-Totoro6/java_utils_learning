@@ -16,7 +16,7 @@ public class StreamTest {
     static {
         Student s1 = new Student("Jack", 18, LocalDate.parse("2022/2/21", DateTimeFormatter.ofPattern("yyyy/M/d")),1);
         Student s2 = new Student("Jason", 22, LocalDate.parse("2021/2/21", DateTimeFormatter.ofPattern("yyyy/M/d")),1);
-        Student s3 = new Student(null, 22, LocalDate.now(),2);
+        Student s3 = new Student("nono", 22, LocalDate.now(),2);
         Student s4 = new Student("lili", 19, null,2);
         Student s5 = new Student("null", null, null,2);
         students.add(s1);
@@ -60,6 +60,11 @@ public class StreamTest {
         //按照字段分组 流转换成map
         Map<Integer, List<Student>> toGroupMap = students.stream().collect(Collectors.groupingBy(Student::getSex));
         System.out.println(toList);
+    }
+    @Test
+    public void testToString(){
+        String s = students.stream().map(Student::getName).collect(Collectors.joining(","));
+        System.out.println(s);
     }
 
 
