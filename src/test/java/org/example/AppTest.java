@@ -503,5 +503,24 @@ public class AppTest {
          * static java.lang.String org.three.character.oriented.Dog.iam
          */
     }
+
+    /**
+     * 越过泛型检查
+     * 我有一个类ArrayList<Integer>集合，现在我想在这个集合中添加一个字符串数据，如何实现
+     */
+    @Test
+    public void test_override_generic_check() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        ArrayList<Integer> array=new ArrayList<Integer>();
+        array.add(10);
+        array.add(20);
+//        array.add("hello");
+        Class<? extends ArrayList> c=array.getClass();
+        Method m = c.getMethod("add", Object.class);
+        m.invoke(array,"hello");
+        m.invoke(array,"wrold");
+        m.invoke(array,"java");
+
+        System.out.println(array);
+    }
 }
 
