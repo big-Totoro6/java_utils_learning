@@ -264,18 +264,19 @@ public class AppTest {
 //        p.new GDestination("ss")
         System.out.println(d.readLabel());
     }
+
     /**
      * 测试nio 缓存区
      */
     @Test
-    public void test_nio_buffer(){
+    public void test_nio_buffer() {
         // 创建一个缓冲区
         ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
 
         // 看一下初始时4个核心变量的值
-        System.out.println("初始时-->limit--->"+byteBuffer.limit());
-        System.out.println("初始时-->position--->"+byteBuffer.position());
-        System.out.println("初始时-->capacity--->"+byteBuffer.capacity());
+        System.out.println("初始时-->limit--->" + byteBuffer.limit());
+        System.out.println("初始时-->position--->" + byteBuffer.position());
+        System.out.println("初始时-->capacity--->" + byteBuffer.capacity());
         System.out.println("初始时-->mark--->" + byteBuffer.mark());
 
         System.out.println("--------------------------------------");
@@ -285,14 +286,15 @@ public class AppTest {
         byteBuffer.put(s.getBytes());
 
         // 看一下初始时4个核心变量的值
-        System.out.println("put完之后-->limit--->"+byteBuffer.limit());
-        System.out.println("put完之后-->position--->"+byteBuffer.position());
-        System.out.println("put完之后-->capacity--->"+byteBuffer.capacity());
+        System.out.println("put完之后-->limit--->" + byteBuffer.limit());
+        System.out.println("put完之后-->position--->" + byteBuffer.position());
+        System.out.println("put完之后-->capacity--->" + byteBuffer.capacity());
         System.out.println("put完之后-->mark--->" + byteBuffer.mark());
     }
+
     @Test
-    public void testStartMethod(){
-        Thread t=new Thread(new java.lang.Runnable() {
+    public void testStartMethod() {
+        Thread t = new Thread(new java.lang.Runnable() {
             @Override
             public void run() {
                 System.out.println("不教胡马度阴山");
@@ -365,8 +367,9 @@ public class AppTest {
             e.printStackTrace();
         }
     }
+
     @Test
-    public void test_threadGroup(){
+    public void test_threadGroup() {
         Thread testThread = new Thread(() -> {
             System.out.println("testThread当前线程组名字：" +
                     Thread.currentThread().getThreadGroup().getName());
@@ -378,13 +381,14 @@ public class AppTest {
         System.out.println("执行main所在线程的线程组名字： " + Thread.currentThread().getThreadGroup().getName());
         System.out.println("执行main方法线程名字：" + Thread.currentThread().getName());
     }
+
     @Test
-    public void test_thread_priority(){
+    public void test_thread_priority() {
         Thread a = new Thread();
-        System.out.println("我是默认线程优先级："+a.getPriority());
+        System.out.println("我是默认线程优先级：" + a.getPriority());
         Thread b = new Thread();
         b.setPriority(10);
-        System.out.println("我是设置过的线程优先级："+b.getPriority());
+        System.out.println("我是设置过的线程优先级：" + b.getPriority());
     }
 
     /**
@@ -393,7 +397,7 @@ public class AppTest {
      * 避免使用== null这种判断空的方法
      */
     @Test
-    public void test_optional_map(){
+    public void test_optional_map() {
         List<User> users = new ArrayList<User>();
         User user = new User();
         user.setId(22);
@@ -404,45 +408,58 @@ public class AppTest {
 
         System.out.println(userName);
     }
+
     @Test
-    public void test_process(){
-            boolean flag = false;
-            for (int i = 0; i <= 3; i++) {
-                if (i == 0) {
-                    System.out.println("0");
-                } else if (i == 1) {
-                    System.out.println("1");
-                    continue;
-                } else if (i == 2) {
-                    System.out.println("2");
-                    flag = true;
-                } else if (i == 3) {
-                    System.out.println("3");
-                    break;
-                } else if (i == 4) {
-                    System.out.println("4");
-                }
-                System.out.println("xixi");
+    public void test_process() {
+        boolean flag = false;
+        for (int i = 0; i <= 3; i++) {
+            if (i == 0) {
+                System.out.println("0");
+            } else if (i == 1) {
+                System.out.println("1");
+                continue;
+            } else if (i == 2) {
+                System.out.println("2");
+                flag = true;
+            } else if (i == 3) {
+                System.out.println("3");
+                break;
+            } else if (i == 4) {
+                System.out.println("4");
             }
-            if (flag) {
-                System.out.println("haha");
-                return;
-            }
-            System.out.println("heihei");
+            System.out.println("xixi");
         }
-        @Test
-        public void test_equal(){
-            String a = new String("ab"); // a 为一个引用
-            String b = new String("ab"); // b为另一个引用,对象的内容一样
-            String aa = "ab"; // 放在常量池中
-            String bb = "ab"; // 从常量池中查找
-            Integer a1=42;
-            double a2=  42.0;
-            System.out.println(aa == bb);// true
-            System.out.println(a == b);// false
-            System.out.println(a.equals(b));// true
-            System.out.println(422 == 422.000);// true 基本类型的== 就是值比较
-            System.out.println(a1 == a2);// true
+        if (flag) {
+            System.out.println("haha");
+            return;
         }
+        System.out.println("heihei");
+    }
+
+    @Test
+    public void test_equal() {
+        String a = new String("ab"); // a 为一个引用
+        String b = new String("ab"); // b为另一个引用,对象的内容一样
+        String aa = "ab"; // 放在常量池中
+        String bb = "ab"; // 从常量池中查找
+        Integer a1 = 42;
+        double a2 = 42.0;
+        System.out.println(aa == bb);// true
+        System.out.println(a == b);// false
+        System.out.println(a.equals(b));// true
+        System.out.println(422 == 422.000);// true 基本类型的== 就是值比较
+        System.out.println(a1 == a2);// true
+    }
+
+    @Test
+    public void test_split(){
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("112,113");
+        strings.add("112");
+        strings.forEach(t->{
+            List split = Arrays.asList(t.split(","));
+            System.out.println(split.get(0));
+        });
+    }
 }
 

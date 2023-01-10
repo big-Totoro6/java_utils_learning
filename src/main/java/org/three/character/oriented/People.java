@@ -1,6 +1,9 @@
 package org.three.character.oriented;
 
-public class People {
+import lombok.Data;
+
+@Data
+public class People implements Runnable{
     public void walkingDog(BorderCollie borderCollie){
         System.out.println("我在遛"+borderCollie.whoAmI());
     }
