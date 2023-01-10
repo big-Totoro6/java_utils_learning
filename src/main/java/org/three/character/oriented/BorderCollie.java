@@ -7,6 +7,7 @@ import lombok.Data;
  */
 @Data
 public class BorderCollie extends Dog{
+    private String specialBorder;
     /**
      * 当类中没有显式定义任何构造器时，由Java编译器默认提供的无参构造器；
      * 除了基类 Object 外，其他类内部的默认构造器都只有直接调用父类的空参构造器，即函数体是 super ()

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.inner.*;
 import org.junit.Test;
 import org.springframework.beans.BeanUtils;
@@ -12,6 +13,7 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 
 import org.springframework.stereotype.Component;
+import org.three.character.oriented.BorderCollie;
 import org.three.character.oriented.Dog;
 
 import java.beans.PropertyDescriptor;
@@ -479,6 +481,27 @@ public class AppTest {
         constructor.setAccessible(true);
         Dog dog1 = constructor.newInstance("Dog", 11, 2, 1);
         System.out.println(dog1.getName());
+    }
+
+    @Test
+    public void test_ReflectField() throws NoSuchFieldException {
+        BorderCollie dog = new BorderCollie("边牧", 11, 1, 1);
+        Class<? extends BorderCollie> dogClass = dog.getClass();
+        Field[] fields = dogClass.getFields();//获取类的公共成员变量
+        Field[] declaredFields = dogClass.getDeclaredFields();
+        //基本的 getFields 是获取子类与父类的 公共成员变量
+        //getDeclaredFields 是获取子类全部的成员变量
+        //如果你要获取 子类与父类全部的成员变量呢 不论私有公有
+        List<Field> allFields = Arrays.asList(FieldUtils.getAllFields(dogClass));
+        allFields.forEach(System.out::println);
+        /**  allFields.forEach(System.out::println);
+         * private java.lang.String org.three.character.oriented.BorderCollie.specialBorder
+         * private java.lang.String org.three.character.oriented.Dog.name
+         * private java.lang.Integer org.three.character.oriented.Dog.age
+         * private java.lang.Integer org.three.character.oriented.Dog.smartLevel
+         * private java.lang.Integer org.three.character.oriented.Dog.sex
+         * static java.lang.String org.three.character.oriented.Dog.iam
+         */
     }
 }
 
