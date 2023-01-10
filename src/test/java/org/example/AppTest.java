@@ -12,9 +12,12 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 
 import org.springframework.stereotype.Component;
+import org.three.character.oriented.Dog;
 
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.util.*;
@@ -460,6 +463,22 @@ public class AppTest {
             List split = Arrays.asList(t.split(","));
             System.out.println(split.get(0));
         });
+    }
+    @Test
+    public void test_reflect() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        //实操 通过反射实现
+        Dog dog = new Dog("Dog", 11, 2, 1);
+        System.out.println(dog.getName());
+
+        //通过反射实现
+
+        //获取class对象
+        Class<Dog> dogClass = Dog.class;
+        //获取构造器
+        Constructor<Dog> constructor = dogClass.getConstructor(String.class, Integer.class, Integer.class, Integer.class);
+        constructor.setAccessible(true);
+        Dog dog1 = constructor.newInstance("Dog", 11, 2, 1);
+        System.out.println(dog1.getName());
     }
 }
 
