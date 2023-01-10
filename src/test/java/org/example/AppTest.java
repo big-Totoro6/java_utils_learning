@@ -19,7 +19,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 
-import org.springframework.stereotype.Component;
 import org.three.character.oriented.BorderCollie;
 import org.three.character.oriented.Dog;
 
@@ -580,6 +579,27 @@ public class AppTest {
                                         .excludePackage("org.about.ser")
                         )
         );
+    }
+
+    /**
+     * org.apache.commons.lang3 包提供的StringUtils工具类
+     * 获取 open 与close 之间的字符串 如有多个匹配的 则获取多个
+     *
+     * 实现思路：
+     * 按照open 与close 分别匹配字符所在的位置
+     * 然后截取中间的字符串 加入List中 然后把pos 位置移到close匹配的索引那 继续匹配下面的
+     * 只有当open和close都匹配上 才算一个合法的字符 否则就break
+     */
+    @Test
+    public void test_substringsBetween(){
+        String str="[1,2,3],[4,5],[6]";
+        String[] strings = StringUtils.substringsBetween(str, "[", "]");
+        Arrays.stream(strings).forEach(System.out::println);
+        /**
+         * 1,2,3
+         * 4,5
+         * 6
+         */
     }
 }
 
