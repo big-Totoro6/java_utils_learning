@@ -3,11 +3,18 @@ package org.example;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Lists;
+import org.about.annotation.Path;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.inner.*;
 import org.junit.Test;
+import org.reflections.Reflections;
+import org.reflections.scanners.FieldAnnotationsScanner;
+import org.reflections.scanners.MethodAnnotationsScanner;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.util.ConfigurationBuilder;
+import org.reflections.util.FilterBuilder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
@@ -17,6 +24,7 @@ import org.three.character.oriented.BorderCollie;
 import org.three.character.oriented.Dog;
 
 import java.beans.PropertyDescriptor;
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -521,6 +529,57 @@ public class AppTest {
         m.invoke(array,"java");
 
         System.out.println(array);
+    }
+
+    /**
+     * 简单使用 reflections 框架
+     */
+    @Test
+    public void test_simple_reflections(){
+        //org.about.annotation为要扫描的包
+        Reflections reflections = new Reflections("org.about.annotation");
+        System.out.println(reflections);
+        //获取type下的子类或接口的实现类
+        Set<Class<? extends Serializable>> subTypesOf = reflections.getSubTypesOf(Serializable.class);
+        //获取含有annotation注解的类或接口
+        Set<Class<?>> typesAnnotatedWith = reflections.getTypesAnnotatedWith(Path.class);
+        //获取含有annotation注解的方法
+        Set<Method> methodsAnnotatedWith = reflections.getMethodsAnnotatedWith(Path.class);
+        //获取含有annotation注解的构造器
+        Set<Constructor> constructorsAnnotatedWith = reflections.getConstructorsAnnotatedWith(Path.class);
+        //获取含有annotation注解的属性
+        Set<Field> fieldsAnnotatedWith = reflections.getFieldsAnnotatedWith(Path.class);
+    }
+
+    /**
+     * 复杂使用 reflections 框架
+     */
+    @Test
+    public void test_hard_reflections(){
+        //org.about.annotation为要扫描的包
+        Reflections reflections = new Reflections(
+                new ConfigurationBuilder()
+                        //设置扫描的包
+                        .forPackages("org.about")
+                        //设置扫描器
+                        // scanners下有扫描器
+                        .addScanners(
+                                //类和接口的扫描器
+                                new SubTypesScanner(),
+                                //用于扫描方法上注解扫描器
+                                new MethodAnnotationsScanner(),
+                                //用于扫描属性上注解扫描器
+                                new FieldAnnotationsScanner()
+                        )
+                        //设置过滤器
+                        .filterInputsBy(
+                                new FilterBuilder()
+                                        //需要要扫描的包
+                                        .includePackage("org.about.annotation")
+                                        //不需要要扫描的包
+                                        .excludePackage("org.about.ser")
+                        )
+        );
     }
 }
 
