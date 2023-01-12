@@ -7,6 +7,10 @@ package org.io.design.adapt;
  * 对外暴露的时候 其实就是调用AudioPlayer 不过通过适配器模式 给AudioPlayer装了一个适配器 通过适配器 他有了一些原本没有的能力
  * 举个例子：
  * 你像香港的switch充电器 的充电头是不能直接插到大陆的插座的，得有个适配器，你得先把充电器查到适配器上，再把适配器插到插座，这样就实现了充电
+ *
+ * 使用场景：有动机地修改一个正常运行的系统的接口，这时应该考虑使用适配器模式。
+ *
+ * 注意事项：适配器不是在详细设计时添加的，而是解决正在服役的项目的问题。
  */
 public class AdapterPatternDemo {
     public static void main(String[] args) {
