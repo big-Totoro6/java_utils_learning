@@ -18,7 +18,7 @@ public class StreamTest {
         Student s2 = new Student("Jason", 22, LocalDate.parse("2021/2/21", DateTimeFormatter.ofPattern("yyyy/M/d")),1);
         Student s3 = new Student("nono", 22, LocalDate.now(),2);
         Student s4 = new Student("lili", 19, null,2);
-        Student s5 = new Student("null", null, null,2);
+        Student s5 = new Student("null", 22, null,2);
         students.add(s1);
         students.add(s2);
         students.add(s3);
@@ -65,6 +65,9 @@ public class StreamTest {
     public void testToString(){
         String s = students.stream().map(Student::getName).collect(Collectors.joining(","));
         System.out.println(s);
+        //把long集合转为string 并且按照 , 分隔成字符串
+        String collect = students.stream().map(Student::getAge).map(String::valueOf).collect(Collectors.joining(","));
+        System.out.println(collect);
     }
 
 
