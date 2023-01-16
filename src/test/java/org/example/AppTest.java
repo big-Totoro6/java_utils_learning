@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Lists;
 import org.about.annotation.Path;
+import org.aboutstatic.Student;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -600,6 +601,61 @@ public class AppTest {
          * 4,5
          * 6
          */
+    }
+
+    /**
+     * 为什么Java只有值传递
+     */
+    @Test
+    public void test_valueTransferInJava(){
+        /**值传递 ：方法接收的是实参值的拷贝，会创建副本。
+         * 因为 方法中传递的是形参 在方法里面改变的都是形参的值，和主线程里的 num1 num2 无关
+         */
+        System.out.println("-----------------基础类型--------------------");
+        int num1=1;
+        int num2=2;
+        System.out.println("before swap num1: "+ num1);
+        System.out.println("before swap num2: "+ num2);
+        swapBaseType(num1,num2);
+        System.out.println("after swap num1: "+ num1);
+        System.out.println("after swap num2: "+ num2);
+        System.out.println("------------------引用类型-------------------");
+        /**
+         * 引用传递 ：方法接收的直接是实参所引用的对象在堆中的地址，不会创建副本，对形参的修改将影响到实参。
+         * 也就是说 主线程里面 jason bro 是两个栈内的引用，是一个地址，指向堆内的对象， 方法传递就是把引用复制一份副本，
+         * 你在里面交换副本的值，和外界的值又没关系，这个和上面的基础类型的值传递是一样的，只有你在方法里面改变了堆内对象的属性，
+         * 你外界指向堆内的对象展现出来 自然也就不一样了
+         * 所以 java是值传递
+         */
+        Student jason = new Student("Jason");
+        Student bro=new Student("大妖怪");
+        System.out.println("before swap Student1: "+ jason.getName());
+        System.out.println("before swap Student2: "+ bro.getName());
+        swapReferenceType(jason,bro);
+        System.out.println("after swap Student1: "+ jason.getName());
+        System.out.println("after swap Student2: "+ bro.getName());
+    }
+
+    /**
+     * 交换两个基础变量
+     * @param num1
+     * @param num2
+     */
+    private void swapBaseType(int num1, int num2) {
+        int temp=num1;
+        num1=num2;
+        num2=temp;
+    }
+
+    /**
+     * 交换两个
+     * @param student1
+     * @param student2
+     */
+    private void swapReferenceType(Student student1, Student student2) {
+        Student temp=student1;
+        student1=student2;
+        student2=temp;
     }
 }
 

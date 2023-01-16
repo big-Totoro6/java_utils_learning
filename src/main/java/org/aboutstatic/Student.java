@@ -23,6 +23,9 @@ public class Student {
 
     public Student() {
     }
+    public Student(String name) {
+        this.name = name;
+    }
     public Student(String name, Integer age, LocalDate now) {
         this.name = name;
         this.age = age;
