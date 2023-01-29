@@ -80,4 +80,8 @@ public class UnsafeTest {
         A a3 = (A)unsafe.allocateInstance(A.class);
         System.out.println(a3.getB());//打印结果分别为 1、1、0，说明通过allocateInstance方法创建对象过程中，不会调用类的构造方法
     }
+    @Test
+    public void test_clone(){
+        System.out.println("试试clone push");
+    }
 }
