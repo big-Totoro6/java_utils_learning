@@ -10,7 +10,8 @@ public class MapStructTest {
     public void testMapStruct(){
         Man man = new Man("Jason", 18);
         man.setSon(new Son("Jason's son"));
+        man.setPhid(22L);
         ManDto manDto = ManMapper.INSTANCES.toManDto(man);
-        System.out.println(manDto);
+        System.out.println(manDto);//ManDto(phid=null, ori_phid=22, name=Jason, sonName=Jason's son)
     }
 }

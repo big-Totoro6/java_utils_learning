@@ -23,6 +23,8 @@ public interface ManMapper {
     @Mappings({
             @Mapping(source = "name",target = "name"),
             @Mapping(source = "son.name",target = "sonName"),
+            @Mapping(source = "phid",target = "ori_phid"),
+            @Mapping(target = "phid",ignore = true)//指定不映射这个属性
     })
     ManDto toManDto(Man man);
 }
