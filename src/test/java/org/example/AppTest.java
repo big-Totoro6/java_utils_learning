@@ -657,5 +657,12 @@ public class AppTest {
         student1=student2;
         student2=temp;
     }
+    @Test
+    public  void test_string_replaceAll(){
+        String data="{{abc}}\"";
+        System.out.println(data);
+        String[] split = data.replace("{", "").replace("}", "").replace("\"", "").split(",");
+        Arrays.stream(split).forEach(System.out::print);
+    }
 }
 
