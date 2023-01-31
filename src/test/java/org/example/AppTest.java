@@ -29,7 +29,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.ByteBuffer;
+import java.text.NumberFormat;
 import java.util.*;
 
 
@@ -658,11 +661,62 @@ public class AppTest {
         student2=temp;
     }
     @Test
-    public  void test_string_replaceAll(){
+    public void test_string_replaceAll(){
         String data="{{abc}}\"";
         System.out.println(data);
         String[] split = data.replace("{", "").replace("}", "").replace("\"", "").split(",");
         Arrays.stream(split).forEach(System.out::print);
     }
+
+    /**
+     * 转化成BigDecimal 需要用 String  字符串传参.0.0.0.0.0.0.0.0.0.0.0.
+     */
+    @Test
+    public void test_BigDecimal(){
+        /**
+         * 因为BigDecimal(double) 这个构造器具有不可知性 因为0.1不能准确的表示为double 或者任何有限长度的二进制小数
+         * 因为十进制小数到二进制小数 整数部分除 2 取余，逆序排列，小数部分使用乘 2 取整数位，顺序排列
+         */
+        BigDecimal a =new BigDecimal(0.1);
+        System.out.println("a values is:"+a);//a values is:0.1000000000000000055511151231257827021181583404541015625
+        System.out.println("=====================");
+        BigDecimal b =new BigDecimal("0.676");
+        System.out.println("b values is:"+b);//b values is:0.1
+    }
+
+    @Test
+    public void test_double_lost_scale(){
+        System.out.println(0.1 + 0.2);
+        System.out.println(0.2 - 0.1);
+        System.out.println(0.1 * 0.2);
+        System.out.println(0.2 / 0.1);
+        System.out.println(0.3 - 0.1);
+        System.out.println(0.3 / 0.1);
+        /**输出
+         * 0.30000000000000004
+         * 0.1
+         * 0.020000000000000004
+         * 2.0
+         * 0.19999999999999998
+         * 2.9999999999999996
+         * 计算机是二进制的。浮点数没有办法是用二进制进行精确表示。
+         * 我们的CPU表示浮点数由两个部分组成：指数和尾数，这样的表示方法一般都会失去一定的精确度，有些浮点数运算也会产生一定的误差。
+         */
+    }
+
+    @Test
+    public void test_BigDecimal_divide(){
+        BigDecimal a = new BigDecimal("4.5");
+        BigDecimal b = new BigDecimal("1.3");
+//        System.out.println(a.divide(b));//java.lang.ArithmeticException: Non-terminating decimal expansion; no exact representable decimal result. 会抛异常
+        //scale 表示保留几位小数   后面是四舍五入的取整RoundingMode.UP 直接向上取整    HALF_UP 四舍五入
+        BigDecimal divide = a.divide(b, 5, RoundingMode.UP);
+        System.out.println("a.divide(b, 2, RoundingMode.UP) = "+divide);
+        //转百分数
+        NumberFormat percent = NumberFormat.getPercentInstance();
+        percent.setMaximumFractionDigits(2);
+        System.out.println("BigDecimal转百分数:  "+ percent.format(divide.doubleValue()));
+    }
+
 }
 
