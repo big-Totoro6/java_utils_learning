@@ -33,6 +33,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.nio.ByteBuffer;
 import java.text.NumberFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 
@@ -716,6 +717,18 @@ public class AppTest {
         NumberFormat percent = NumberFormat.getPercentInstance();
         percent.setMaximumFractionDigits(2);
         System.out.println("BigDecimal转百分数:  "+ percent.format(divide.doubleValue()));
+    }
+
+    @Test
+    public void test_LocalDate_CompareTo(){
+        LocalDate a = LocalDate.of(2023, 3, 11);
+        LocalDate b = LocalDate.of(2023, 3, 11);
+        LocalDate c = LocalDate.of(2023, 3, 15);
+        LocalDate d = LocalDate.of(2023, 3, 1);
+        System.out.println(a.compareTo(b));
+        System.out.println(a.compareTo(c));
+        System.out.println(a.compareTo(d));
+
     }
 
 }
