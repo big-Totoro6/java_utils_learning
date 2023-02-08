@@ -19,7 +19,7 @@ public class TestAbstract {
         man.eat();
         runningMan.eat();
         Man man1 = new Man();
-        runnable.walk();
+        Runnable.walk();
     }
 
 }
