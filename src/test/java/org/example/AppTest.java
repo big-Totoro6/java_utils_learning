@@ -8,6 +8,8 @@ import org.aboutstatic.Student;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.enumj.EnumAppStatus;
+import org.enumj.Normal;
 import org.inner.*;
 import org.junit.Test;
 import org.reflections.Reflections;
@@ -729,6 +731,16 @@ public class AppTest {
         System.out.println(a.compareTo(c));
         System.out.println(a.compareTo(d));
 
+    }
+
+    @Test
+    public void test_enum(){
+        Normal normal = new Normal();
+        normal.setAppStatus(EnumAppStatus.Approved.ordinal());
+        normal.setEnumAppStatus(EnumAppStatus. UnApproved);
+
+        System.out.println(normal.getAppStatus());
+        System.out.println(normal.getEnumAppStatus());
     }
 
 }
