@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 @Data
 public class Man implements Serializable {
+    Long phid;
     String name;
     Integer age;
     Son son;

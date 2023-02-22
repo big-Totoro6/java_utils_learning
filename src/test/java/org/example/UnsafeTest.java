@@ -1,6 +1,6 @@
 package org.example;
 
-import com.sun.org.slf4j.internal.Logger;
+//import com.sun.org.slf4j.internal.Logger;
 import org.junit.Test;
 import org.unsafa.A;
 import sun.misc.Unsafe;
@@ -21,7 +21,8 @@ public class UnsafeTest {
             field.setAccessible(true);
             return (Unsafe) field.get(null);
         } catch (Exception e) {
-            new Logger("Jason").error(e.getMessage());
+//            new Logger("Jason").error(e.getMessage());
+            System.out.println(e.getMessage());
             return null;
         }
     }
