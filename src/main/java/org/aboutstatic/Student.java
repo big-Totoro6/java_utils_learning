@@ -1,7 +1,9 @@
 package org.aboutstatic;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +21,8 @@ public class Student {
     private Integer age;
     private LocalDate date;
     private Integer sex;
+    private Integer dept;
+    private Integer canView;
     static String school ="浙江工商大学";
 
     public Student() {
@@ -37,6 +41,15 @@ public class Student {
         this.age = age;
         this.date = date;
         this.sex = sex;
+    }
+
+    public Student(String name, Integer age, LocalDate date, Integer sex, Integer dept, Integer canView) {
+        this.name = name;
+        this.age = age;
+        this.date = date;
+        this.sex = sex;
+        this.dept = dept;
+        this.canView = canView;
     }
 
     public static void main(String[] args) {

@@ -742,6 +742,5 @@ public class AppTest {
         System.out.println(normal.getAppStatus());
         System.out.println(normal.getEnumAppStatus());
     }
-
 }
 
