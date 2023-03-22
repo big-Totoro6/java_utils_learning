@@ -6,6 +6,7 @@ import org.apache.commons.collections.MapUtils;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
+import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -108,6 +109,16 @@ public class StreamTest {
         });
 
         System.out.println();
+    }
+
+    @Test
+    public void test_String_format(){
+        String msg="Hello {0} 是你{0} 我要骂人了{1}";
+        String jason = String.format(msg, "Jason", 11);
+        String jason1 = MessageFormat.format(msg, "Jason", 11);
+        System.out.println(msg);
+        System.out.println(jason);
+        System.out.println(jason1);
     }
 
 
