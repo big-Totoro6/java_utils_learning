@@ -742,5 +742,12 @@ public class AppTest {
         System.out.println(normal.getAppStatus());
         System.out.println(normal.getEnumAppStatus());
     }
+
+    @Test
+    public void test_Arrays_asList(){
+        String[] split = "".split(",");
+        List<String> strings = new ArrayList<>(Arrays.asList(split));
+        strings.add("1");
+    }
 }
 
