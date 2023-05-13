@@ -18,6 +18,9 @@ public class Ason<E> extends Afather<E> implements List<E>{
 
     @Override
     public void hhhh() {
+        //OK
+        System.out.println("True commit");
+
 
     }
 }
