@@ -751,5 +751,19 @@ public class AppTest {
         List<String> strings = new ArrayList<>(Arrays.asList(split));
         strings.add("1");
     }
+
+    @Test
+    public void test_hashSet(){
+        /**
+         *  putVal(hash(key), key, value, false, true);
+         *  hashset 不管你有么有值 都会去替换原本的值 这个add方法默认 onlyIfAbsent – if true, don't change existing value 是false
+         */
+        HashSet<Integer> set = new HashSet<>();
+        System.out.println(set.add(110));
+        System.out.println(set.toString());
+        System.out.println(set.add(110));
+        System.out.println(set.toString());
+    }
+
 }
 
