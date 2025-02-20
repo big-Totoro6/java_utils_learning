@@ -1,3 +1,5 @@
 cardNo  卡号  类型  20
 cardName    卡名  类型  30
 price   钱   类型  12,2
+AVL_AMT 钱   类型  19,2
+AVL-PRICE   QIAN    类型  12,2

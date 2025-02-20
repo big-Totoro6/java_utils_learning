@@ -3,7 +3,9 @@ package org.example;
 import org.junit.Test;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class IOTest {
@@ -87,6 +89,115 @@ public class IOTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void test_inputStreaGen2(){
+        String inputFilePath = "D:\\code\\java\\java_utils_learning\\src\\main\\java\\org\\io\\nio\\source.txt"; // 输入文件路径
+        String outputFilePath = "D:\\code\\java\\java_utils_learning\\src\\main\\java\\org\\io\\nio\\target.txt"; // 输出文件路径
+
+        File inputFile = new File(inputFilePath);
+        if (!inputFile.exists()) {
+            System.out.println("输入文件不存在！");
+            return;
+        }
+
+        Map<String, Integer> attach = new HashMap<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(inputFile))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                // 分割字段
+                String[] parts = line.split("\\s+");
+                if (parts.length < 4) continue;  // 确保格式正确
+
+                String key = parts[0].trim(); // 字段名
+                String lengthStr = parts[3].trim(); // 第四列内容
+
+                // 转换字段名为驼峰命名法，小写，并替换 '-' 为 '_'
+                key = convertToCamelCase(key);
+
+                // 判断第四列是否包含逗号，计算长度
+                int length = lengthStr.contains(",")
+                        ? Integer.parseInt(lengthStr.split(",")[0]) + 1
+                        : Integer.parseInt(lengthStr);
+
+                attach.put(key, length);
+            }
+
+            // 输出结果到指定文件
+            try (FileOutputStream output = new FileOutputStream(outputFilePath)) {
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(output));
+                for (Map.Entry<String, Integer> entry : attach.entrySet()) {
+                    String lineToWrite = "attach.put(\"" + entry.getKey() + "\", " + entry.getValue() + ");\n";
+                    writer.write(lineToWrite);
+                }
+                writer.flush();
+                System.out.println("输出已写入文件：" + outputFilePath);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    // 将字段名转换为小写驼峰命名法，并处理 '-' 为 '_'
+    private static String convertToCamelCase(String fieldName) {
+        // 将所有的 '-' 替换为 '_'
+        String replaced = fieldName.replace("-", "_");
+
+        // 将字符串转换为小写
+        replaced = replaced.toLowerCase();
+
+        // 分割字符串，并按照驼峰命名法转换
+        String[] parts = replaced.split("_");  // 按 _ 分割
+        StringBuilder camelCaseName = new StringBuilder(parts[0]);  // 第一个部分小写
+        for (int i = 1; i < parts.length; i++) {
+            camelCaseName.append(parts[i].substring(0, 1).toUpperCase())
+                    .append(parts[i].substring(1));
+        }
+        return camelCaseName.toString();
+    }
+
+    @Test
+    public void test_inputStreaGen3(){
+        String inputFilePath = "D:\\code\\java\\java_utils_learning\\src\\main\\java\\org\\io\\nio\\source.txt"; // 输入文件路径
+        String outputFilePath = "D:\\code\\java\\java_utils_learning\\src\\main\\java\\org\\io\\nio\\target.txt"; // 输出文件路径
+
+        File inputFile = new File(inputFilePath);
+        if (!inputFile.exists()) {
+            System.out.println("输入文件不存在！");
+            return;
+        }
+
+        List<String> fieldNames = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(inputFile))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split("\\s+"); // 使用空格分割
+                if (parts.length >= 1) {
+                    fieldNames.add(parts[0].trim()); // 获取字段名（第一列）
+                }
+            }
+
+            // 输出字段声明到文件
+            try (FileOutputStream output = new FileOutputStream(outputFilePath)) {
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(output));
+                for (String fieldName : fieldNames) {
+                    // 转换字段名为驼峰命名
+                    String camelCaseFieldName = convertToCamelCase(fieldName);
+
+                    // 写入字段声明
+                    writer.write("private String " + camelCaseFieldName + ";\n");
+                }
+                writer.flush();
+                System.out.println("输出已写入文件：" + outputFilePath);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
     /**

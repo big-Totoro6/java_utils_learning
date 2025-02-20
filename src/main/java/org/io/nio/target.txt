@@ -1,3 +1,5 @@
-attach.put("cardName", 30);
+attach.put("cardname", 30);
 attach.put("price", 13);
-attach.put("cardNo", 20);
+attach.put("avlAmt", 20);
+attach.put("avlPrice", 13);
+attach.put("cardno", 20);
