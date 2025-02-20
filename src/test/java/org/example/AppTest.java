@@ -775,5 +775,13 @@ public class AppTest {
         System.out.println(decode);
     }
 
+    @Test
+    public void testDecodeAndGenWord() throws Exception {
+        //解码后的
+        String destring = "";
+        CRED2028Info decode = StringDecoder.decode(destring, CRED2028Info.attach, CRED2028Info.class);
+        System.out.println(decode);
+    }
+
 }
 

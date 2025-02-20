@@ -3,6 +3,8 @@ package org.example;
 import org.junit.Test;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class IOTest {
     /**字节流
@@ -38,6 +40,54 @@ public class IOTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void test_inputStreaGen(){
+        String inputFilePath = "D:\\code\\java\\java_utils_learning\\src\\main\\java\\org\\io\\nio\\source.txt"; // 输入文件路径
+        String outputFilePath = "D:\\code\\java\\java_utils_learning\\src\\main\\java\\org\\io\\nio\\target.txt"; // 输出文件路径
+
+        File inputFile = new File(inputFilePath);
+        if (!inputFile.exists()) {
+            System.out.println("输入文件不存在！");
+            return;
+        }
+
+        Map<String, Integer> attach = new HashMap<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(inputFile))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                // 分割字段
+                String[] parts = line.split("\\s+");
+                if (parts.length < 4) continue;  // 确保格式正确
+
+                String key = parts[0].trim(); // 字段名
+                String lengthStr = parts[3].trim(); // 第四列内容
+
+                // 判断第四列是否包含逗号，计算长度
+                int length = lengthStr.contains(",")
+                        ? Integer.parseInt(lengthStr.split(",")[0]) + 1
+                        : Integer.parseInt(lengthStr);
+
+                attach.put(key, length);
+            }
+
+            // 输出结果到指定文件
+            try (FileOutputStream output = new FileOutputStream(outputFilePath)) {
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(output));
+                for (Map.Entry<String, Integer> entry : attach.entrySet()) {
+                    String lineToWrite = "attach.put(\"" + entry.getKey() + "\", " + entry.getValue() + ");\n";
+                    writer.write(lineToWrite);
+                }
+                writer.flush();
+                System.out.println("输出已写入文件：" + outputFilePath);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * OutputStream（字节输出流）OutputStream用于将数据（字节信息）写入到目的地（通常是文件），java.io.OutputStream抽象类是所有字节输出流的父类。OutputStream
