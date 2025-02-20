@@ -8,6 +8,8 @@ import org.aboutstatic.Student;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.decode.CRED2028Info;
+import org.decode.StringDecoder;
 import org.enumj.EnumAppStatus;
 import org.enumj.Normal;
 import org.inner.*;
@@ -763,6 +765,14 @@ public class AppTest {
         System.out.println(set.toString());
         System.out.println(set.add(110));
         System.out.println(set.toString());
+    }
+
+    @Test
+    public void testDecode() throws Exception {
+        //解码后的
+        String destring = "1234567890          中文名称                      12  ";
+        CRED2028Info decode = StringDecoder.decode(destring, CRED2028Info.attach, CRED2028Info.class);
+        System.out.println(decode);
     }
 
 }
