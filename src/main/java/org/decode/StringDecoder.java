@@ -25,6 +25,8 @@ public class StringDecoder {
         for (String key : attach.keySet()) {
             int length = attach.get(key); // 获取字段对应的字节长度
             String value = extractValue(byteArray, startIndex, length);
+            //如果要对加号处理的话
+            value = value.replace('+', '.');
             setField(target, key, value);
 
             startIndex += length; // 更新下一个字段的起始位置

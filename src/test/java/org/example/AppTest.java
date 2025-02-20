@@ -770,7 +770,7 @@ public class AppTest {
     @Test
     public void testDecode() throws Exception {
         //解码后的
-        String destring = "1234567890          中文名称                      12  ";
+        String destring = "1234567890          中文名称                      12  0000000123+45";
         CRED2028Info decode = StringDecoder.decode(destring, CRED2028Info.attach, CRED2028Info.class);
         System.out.println(decode);
     }
