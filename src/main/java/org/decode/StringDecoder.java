@@ -1,7 +1,12 @@
 package org.decode;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.regex.Pattern;
 
 public class StringDecoder {
 
@@ -52,5 +57,72 @@ public class StringDecoder {
         java.lang.reflect.Field field = target.getClass().getDeclaredField(key);
         field.setAccessible(true);
         field.set(target, value);
+    }
+
+    // 解析字符串并将数据赋值给指定的类
+    public static <T> List<T> decodeAllina(String input, String delimiter, Class<T> clazz) throws Exception {
+        List<T> resultList = new ArrayList<>();
+
+        // 按行分割数据
+        String[] lines = input.split("\n");
+
+        // 第一行: 获取字段名称
+        String[] fieldNames = lines[0].split(Pattern.quote(delimiter));
+
+        // 第二行: 获取字段类型
+        String[] fieldTypes = lines[1].split(Pattern.quote(delimiter));
+
+        // 第三行: 数据行的起始位置
+        int dataStartIndex = 3;
+
+        // 解析每行数据并映射到目标类
+        for (int i = dataStartIndex; i < lines.length; i++) {
+            String line = lines[i].trim();
+            if (line.isEmpty() || line.equalsIgnoreCase("Na")) {
+                continue;
+            }
+
+            String[] values = line.split(Pattern.quote(delimiter));
+            T instance = clazz.getDeclaredConstructor().newInstance();  // 创建类的实例
+
+            // 使用反射赋值
+            for (int j = 0; j < fieldNames.length; j++) {
+                String fieldName = fieldNames[j];
+                String fieldType = fieldTypes[j];
+                String value = values[j].trim();
+
+                // 获取字段并设置为可访问
+                Field field = clazz.getDeclaredField(fieldName);
+                field.setAccessible(true);
+
+                // 根据字段类型赋值
+                if ("double".equalsIgnoreCase(fieldType)) {
+                    // 将 double 转换为 BigDecimal
+                    if (value != null && !value.isEmpty() && !value.equalsIgnoreCase("Na")) {
+                        BigDecimal parsedValue = new BigDecimal(value);
+                        field.set(instance, parsedValue);
+                    } else {
+                        field.set(instance, null);  // 如果值为空或Na，赋值为null
+                    }
+                } else if ("string".equalsIgnoreCase(fieldType)) {
+                    field.set(instance, value);
+                }
+            }
+            resultList.add(instance);
+        }
+
+        return resultList;
+    }
+
+    // 将字符串解析为Double类型
+    private static Double parseDouble(String value) {
+        try {
+            if (value != null && !value.isEmpty() && !value.equalsIgnoreCase("Na")) {
+                return Double.parseDouble(value);
+            }
+        } catch (NumberFormatException e) {
+            System.err.println("Invalid double value: " + value);
+        }
+        return null;  // 返回null，表示无法解析为double
     }
 }

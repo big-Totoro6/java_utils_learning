@@ -2,6 +2,7 @@ package org.example;
 
 import static org.junit.Assert.assertTrue;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.google.common.collect.Lists;
 import org.about.annotation.Path;
 import org.aboutstatic.Student;
@@ -9,6 +10,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.decode.CRED2028Info;
+import org.decode.Card;
 import org.decode.StringDecoder;
 import org.enumj.EnumAppStatus;
 import org.enumj.Normal;
@@ -782,6 +784,25 @@ public class AppTest {
         CRED2028Info decode = StringDecoder.decode(destring, CRED2028Info.attach, CRED2028Info.class);
         System.out.println(decode);
     }
+
+    @Test
+    public void testDecodeAllin() throws Exception {
+        String input = "cardNo|cardName|price|amt\n" +
+                "string|string|double|double\n" +
+                "Na\n" +
+                "66666666666666|卡名|170.120000|123451.120000\n" +
+                "77777777777777|卡名2||231.410000\n" +
+                "55555555555555|卡名33|170.120000|12340.110000\n" +
+                "64123444444444|卡名44||231.410000";
+        List<Card> cards = StringDecoder.decodeAllina(input, "|", Card.class);
+        // 输出解析结果
+        for (Card card : cards) {
+            System.out.println(card);
+        }
+
+
+    }
+
 
 }
 
