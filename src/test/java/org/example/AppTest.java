@@ -31,7 +31,7 @@ import org.three.character.oriented.BorderCollie;
 import org.three.character.oriented.Dog;
 
 import java.beans.PropertyDescriptor;
-import java.io.Serializable;
+import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -39,6 +39,7 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.*;
@@ -803,6 +804,58 @@ public class AppTest {
 
     }
 
+    @Test
+    public void testCStyleFormatWithComments() {
+        // 模拟数据
+        String s1 = "CardNo12345";
+        String s2 = "AccountNameExample";
+        String s3 = "BankNameExample";
+        String s4 = "BranchNameExample";
+        String s5 = "CustomerNameExample";
+        String s6 = "Some very long data that exceeds 100 characters limit in this case and should be truncated accordingly.";
+        String s7 = "A";
+        double d1 = 1234.56;
+        String s8 = "ShortTextHere";
+        double d2 = 789.00;
+        long l1 = 100L;
+        String s9 = "OK";
+        String s10 = "Another long string that exceeds 100 characters as well, which is also truncated properly in this case.";
 
+        /*
+         * 对应 C 语言的格式串：
+         * "%15.15s|%40.40s|%40.40s|%40.40s|%40.40s|%100.100s|%1.1s|%12.0lf|%14.14s|%12.0lf|%3ld|%2.2s|%100.100s\n"
+         *
+         * 每一段的含义：
+         * %15.15s   -> 字符串，宽度 15，最大长度 15，右对齐（不足补空格，超过截断）
+         * %40.40s   -> 字符串，宽度 40，最大长度 40
+         * %40.40s   -> 字符串，宽度 40，最大长度 40
+         * %40.40s   -> 字符串，宽度 40，最大长度 40
+         * %40.40s   -> 字符串，宽度 40，最大长度 40
+         * %100.100s -> 字符串，宽度 100，最大长度 100
+         * %1.1s     -> 字符串，宽度 1，只取 1 个字符
+         * %12.0lf   -> 浮点数（double），宽度 12，小数点后 0 位（即整数形式输出）
+         * %14.14s   -> 字符串，宽度 14，最大长度 14
+         * %12.0lf   -> 浮点数（double），宽度 12，小数点后 0 位
+         * %3ld      -> long 整数，宽度 3，右对齐
+         * %2.2s     -> 字符串，宽度 2，最大长度 2
+         * %100.100s -> 字符串，宽度 100，最大长度 100
+         * \n        -> 换行
+         *
+         * Java 对应的格式化串：
+         * 注意：
+         *   - C 的 %lf 在 Java 中直接用 %f（double 默认是 %f）
+         *   - C 的 %ld 在 Java 中直接用 %d（long 也用 %d）
+         *   - 默认对齐规则：C 和 Java 都是右对齐，左对齐需要加 -
+         */
+        String formatted = String.format(
+                "%15.15s|%40.40s|%40.40s|%40.40s|%40.40s|%100.100s|%1.1s|%12.0f|%14.14s|%12.0f|%3d|%2.2s|%100.100s\n",
+                s1, s2, s3, s4, s5,
+                s6, s7, d1, s8, d2,
+                l1, s9, s10
+        );
+
+        // 输出验证（和 C fprintf 一致）
+        System.out.println(formatted);
+    }
 }
 
